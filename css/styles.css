@@ -15,6 +15,7 @@
   --footer-soc-bg-color: #31d0aa;
   --cards-shadow: 0px 1px 6px rgba(46, 47, 66, 0.08),
     0px 1px 1px rgba(46, 47, 66, 0.16), 0px 2px 1px rgba(46, 47, 66, 0.08);
+  --ordinary-transition: 250ms cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 body {
@@ -130,7 +131,7 @@ address {
   margin-right: 40px;
 }
 
-.site-nav-list .link {
+.site-nav-link.link {
   display: block;
   padding-top: 24px;
   padding-bottom: 24px;
@@ -139,11 +140,29 @@ address {
   font-weight: 500;
   font-size: 16px;
   line-height: 1.5;
+
+  transition: color var(--ordinary-transition);
+  position: relative;
 }
 
 .site-nav-link.link:hover,
 .site-nav-link.link:focus {
   color: var(--hover-focus-color);
+}
+
+.site-nav-link.active-nav {
+  color: var(--hover-focus-color);
+}
+
+.active-nav::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -1px;
+  width: 100%;
+  height: 4px;
+  background-color: var(--hover-focus-color);
+  border-radius: 2px;
 }
 
 .address-list {
@@ -161,6 +180,8 @@ address {
   padding-top: 24px;
   padding-bottom: 24px;
   color: var(--primary-text-color);
+
+  transition: color var(--ordinary-transition);
 }
 
 .address-list .link:hover,
@@ -211,11 +232,88 @@ address {
 
   cursor: pointer;
   border: none;
+  transition: background-color var(--ordinary-transition);
 }
 
 .hero-button:hover,
 .hero-button:focus {
   background-color: var(--hover-focus-color);
+}
+
+/* ---------------MODAL-------------------- */
+
+.backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 1;
+  background-color: rgba(46, 47, 66, 0.4);
+
+  transition: opacity var(--ordinary-transition);
+}
+
+.backdrop.is-hidden {
+  visibility: hidden;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.backdrop.is-hidden .modal-window {
+  transform: translate(-50%, -50%) scale(1.1);
+}
+
+.modal-window {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) scale(1);
+  transition: transform var(--ordinary-transition);
+  min-width: 408px;
+  min-height: 576px;
+
+  background-color: #fcfcfc;
+
+  box-shadow: 0px 1px 1px rgba(0, 0, 0, 0.14), 0px 1px 3px rgba(0, 0, 0, 0.12),
+    0px 2px 1px rgba(0, 0, 0, 0.2);
+  border-radius: 4px;
+}
+
+.modal-close-button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  position: absolute;
+  top: 24px;
+  right: 24px;
+
+  width: 24px;
+  height: 24px;
+
+  border-radius: 50%;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  background-color: var(--border-color);
+  color: var(--primary-white-color);
+
+  transition: background-color var(--ordinary-transition);
+}
+
+.modal-close-button:hover,
+.modal-close-button:focus {
+  background-color: var(--hover-focus-color);
+}
+
+.modal-icon {
+  fill: var(--title-text-color);
+
+  transition: fill var(--ordinary-transition);
+}
+
+.modal-close-button:hover .modal-icon,
+.modal-close-button:focus .modal-icon {
+  fill: currentColor;
 }
 
 /* ---------------EXAMPLES AND ADVICES-------------------- */
@@ -336,6 +434,8 @@ address {
   align-items: center;
   background-color: var(--accent-color);
   border-radius: 50%;
+
+  transition: background-color var(--ordinary-transition);
 }
 
 .soc-network-link:hover,
@@ -375,6 +475,8 @@ address {
   border: 1px solid currentColor;
   border-radius: 4px;
   color: var(--companies-icons-color);
+
+  transition: color var(--ordinary-transition);
 }
 
 .customers-link:hover,
@@ -440,6 +542,8 @@ address {
   align-items: center;
   background-color: var(--accent-color);
   border-radius: 50%;
+
+  transition: background-color var(--ordinary-transition);
 }
 
 .footer-soc-icon {
@@ -477,6 +581,10 @@ address {
 
   border: 1px solid var(--border-color);
   border-radius: 4px;
+
+  transition: color var(--ordinary-transition),
+    background-color var(--ordinary-transition),
+    box-shadow var(--ordinary-transition), border var(--ordinary-transition);
 }
 
 .menu-button:hover,
@@ -516,11 +624,42 @@ address {
 }
 .services-link {
   display: block;
+  transition: box-shadow var(--ordinary-transition);
 }
 .services-link.link:hover,
 .services-link.link:focus {
   box-shadow: var(--cards-shadow);
 }
+
+.services-thumb {
+  position: relative;
+  overflow: hidden;
+}
+
+.services-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: var(--accent-color);
+  padding: 40px 32px;
+  transform: translateY(100%);
+  transition: transform var(--ordinary-transition);
+}
+
+.services-link:hover .services-overlay,
+.services-link:focus .services-overlay {
+  transform: translateY(0);
+}
+
+.services-overlay-text {
+  font-size: 16px;
+  line-height: 1.5;
+  letter-spacing: 0.02em;
+  color: #f4f4fd;
+}
+
 .services-wrap {
   padding: 32px 0 32px 16px;
   border: 1px solid var(--border-color);
