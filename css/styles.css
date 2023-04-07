@@ -251,7 +251,8 @@ address {
   opacity: 1;
   background-color: rgba(46, 47, 66, 0.4);
 
-  transition: opacity var(--ordinary-transition);
+  transition: opacity var(--ordinary-transition),
+    visibility var(--ordinary-transition);
 }
 
 .backdrop.is-hidden {
